@@ -5,7 +5,7 @@ const passport = require('passport')
 const session = require('express-session')
 const app = express();
 const port = 3000;
-const Student = require("./models/student")
+const User = require("./models/user")
 
 app.use(express.json())
 
@@ -34,12 +34,12 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-passport.use(Student.createStrategy())
-passport.serializeUser(Student.serializeUser())
-passport.deserializeUser(Student.deserializeUser())
+passport.use(User.createStrategy())
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
 
 
 //Rutas
-const studentRouter = require('./routes/studenRouter')
+const userRouter = require('./routes/userRouter')
 
-app.use('/api/students/', studentRouter)
+app.use('/api/students/', userRouter)

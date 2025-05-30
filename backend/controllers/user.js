@@ -1,9 +1,9 @@
-const Student = require('../models/student')
+const User = require('../models/user')
 
 const register = async (req, res) =>{
         const {dni, name, lastName, email, password} = req.body
     try {
-        const newStudent = new Student({
+        const newUser = new User({
         dni, 
         name, 
         lastName, 
@@ -12,8 +12,8 @@ const register = async (req, res) =>{
         password
     })
 
-    const student = await Student.register(newStudent, password)
-    res.status(200).send({succes: true, newStudent})
+    const user = await User.register(newUser, password)
+    res.status(200).send({succes: true, newUser: newUser})
     } catch (error) {
         console.log(error.message);
         res.status(400).send({succes: false, message: "Error al intentar registrar el usuario"})
@@ -22,8 +22,8 @@ const register = async (req, res) =>{
 
 const login = async (req, res) =>{
     const {username} = req.body
-    const student = await Student.findOne({username: username})
-    res.json({ logeado: true, estudiante: student });
+    const user = await User.findOne({username: username})
+    res.json({ logeado: true, usuario: user });
 }
 
 module.exports = {register, login}

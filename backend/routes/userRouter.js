@@ -5,7 +5,7 @@ const passport = require('passport')
 const {
     register,
     login
-} = require('../controllers/student')
+} = require('../controllers/user')
 
 router.post('/', register)
 
