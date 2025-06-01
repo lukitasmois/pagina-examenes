@@ -1,10 +1,32 @@
+"use client"
+
 import { GraduationCap, Mail, Lock } from "lucide-react"
-import { Button } from "../components/ui/button"
-import { Input } from "../components/ui/input"
-import { Label } from "../components/ui/label"
-import { Card, CardContent, CardHeader } from "../components/ui/card"
+import { Button } from "../../components/ui/button"
+import { Input } from "../../components/ui/input"
+import { Label } from "../../components/ui/label"
+import { Card, CardContent, CardHeader } from "../../components/ui/card"
+import { useState } from "react"
+import axios from 'axios'
+import { json } from "stream/consumers"
 
 export default function LoginScreen() {
+  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  
+  const handleSubmit = async (e) =>{
+      e.preventDefault();
+      const user ={
+        username: email,
+        password: password
+      }      
+      try {
+        const request = await axios.post('http://localhost:3000/api/students/login', user)
+      } catch (error) {
+        console.log(error.message);
+      }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8">
@@ -25,7 +47,7 @@ export default function LoginScreen() {
             <h2 className="text-xl font-semibold text-center text-gray-700">Sign In</h2>
           </CardHeader>
           <CardContent className="space-y-6">
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
               {/* Email/Username Field */}
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-sm font-medium text-gray-700">
@@ -37,6 +59,7 @@ export default function LoginScreen() {
                     id="email"
                     type="email"
                     placeholder="Enter your email or username"
+                    onChange={(e) => setEmail(e.target.value)}
                     className="pl-10 h-12 border-gray-200 focus:border-blue-400 focus:ring-blue-400"
                     required
                   />
@@ -53,6 +76,7 @@ export default function LoginScreen() {
                   <Input
                     id="password"
                     type="password"
+                    onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your password"
                     className="pl-10 h-12 border-gray-200 focus:border-blue-400 focus:ring-blue-400"
                     required

@@ -6,8 +6,10 @@ const session = require('express-session')
 const app = express();
 const port = 3000;
 const User = require("./models/user")
+const cors = require('cors')
 
 app.use(express.json())
+app.use(cors())
 
 app.listen(port, () => {
   console.log(`Servidor iniciado en el puerto ${port}`);

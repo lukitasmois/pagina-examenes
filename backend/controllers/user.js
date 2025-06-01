@@ -8,7 +8,7 @@ const register = async (req, res) =>{
         name, 
         lastName, 
         email,
-        username: dni,
+        username: email,
         password
     })
 
