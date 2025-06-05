@@ -5,11 +5,16 @@ const passport = require('passport')
 const session = require('express-session')
 const app = express();
 const port = 3000;
-const User = require("./models/user")
+const User = require("./models/user.js")
 const cors = require('cors')
 
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+  origin: 'http://localhost:3001',
+  credentials: true
+}))
+
+crearAdmin();
 
 app.listen(port, () => {
   console.log(`Servidor iniciado en el puerto ${port}`);
@@ -28,7 +33,7 @@ mongoose.connect(process.env.MONGO_URL_CONNECTION)
 
 // Passport
 app.use(session({
-  secret: 'secreto',
+  secret: process.env.CLAVE_SECRETA,
   resave: false,
   saveUninitialized: false
 }))
@@ -44,4 +49,23 @@ passport.deserializeUser(User.deserializeUser())
 //Rutas
 const userRouter = require('./routes/userRouter')
 
-app.use('/api/students/', userRouter)
+app.use('/api/users/', userRouter)
+
+
+//crear admin
+async function crearAdmin() {
+  const usuarios = await User.find();
+
+  if (usuarios.length === 0) {
+    const admin = new User({
+      dni: '00000000',
+      name: "admin",
+      lastName: "admin",
+      email: "admin@admin.com",
+      username: "admin@admin.com",
+      rol: "ADMIN",
+    });
+    const nuevoUsuario = await User.register(admin, "admin123");
+    console.log('Admin creado.');
+  }
+}

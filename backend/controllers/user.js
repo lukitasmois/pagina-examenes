@@ -20,10 +20,24 @@ const register = async (req, res) =>{
     }
 }
 
-const login = async (req, res) =>{
-    const {username} = req.body
-    const user = await User.findOne({username: username})
-    res.json({ logeado: true, usuario: user });
-}
+const login = (req, res) => {
+    res.json({
+        logged: true,
+        user: req.user
+    });
+};
 
-module.exports = {register, login}
+const userLogged = async (req,res) =>{
+    console.log(req.user);
+    
+    if (req.user){
+        res.json({
+            user: req.user,
+            logged: true
+        })
+    }
+    else{
+        res.json({message: "No hay usuario logueado", logged: false})
+    }
+}
+module.exports = {register, login, userLogged}

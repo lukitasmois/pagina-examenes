@@ -4,7 +4,8 @@ const passport = require('passport')
 
 const {
     register,
-    login
+    login,
+    userLogged
 } = require('../controllers/user')
 
 router.post('/', register)
@@ -14,5 +15,6 @@ router.post('/login',
     login
 )
 
+router.post('/user-logged', userLogged)
 
 module.exports = router

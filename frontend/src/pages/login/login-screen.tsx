@@ -19,9 +19,14 @@ export default function LoginScreen() {
       const user ={
         username: email,
         password: password
-      }      
+      }
+           
       try {
-        const request = await axios.post('http://localhost:3000/api/students/login', user)
+        const request = await axios.post('http://localhost:3000/api/users/login', user, {
+          withCredentials: true
+        })
+        console.log(request);
+        
       } catch (error) {
         console.log(error.message);
       }
