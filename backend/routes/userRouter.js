@@ -8,7 +8,7 @@ const {
     userLogged
 } = require('../controllers/user')
 
-router.post('/', register)
+router.post('/register', register)
 
 router.post('/login',
     passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
