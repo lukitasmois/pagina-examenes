@@ -1,7 +1,7 @@
 const User = require('../models/user')
 
 const register = async (req, res) =>{
-        const {dni, name, lastName, email, password} = req.body
+        const {dni, name, lastName, email, password, role} = req.body
     try {
         const newUser = new User({
         dni, 
@@ -9,7 +9,8 @@ const register = async (req, res) =>{
         lastName, 
         email,
         username: email,
-        password
+        password,
+        role
     })
 
     const user = await User.register(newUser, password)

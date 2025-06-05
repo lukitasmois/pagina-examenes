@@ -2,6 +2,9 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const passportLocalMongoose = require('passport-local-mongoose')
 
+VALID_ROLES = ['STUDENT', 'ADMIN', 'TEACHER']
+DEFAULT_ROLE = 'STUDENT'
+
 const User = new Schema({
     dni: { type: String, min: 7, max: 8, required: true, unique: true},
     name: {type: String, min: 3, required: true},
@@ -17,6 +20,7 @@ const User = new Schema({
       },
       required: true
     },
+    role: {type: String, enum: VALID_ROLES, default: DEFAULT_ROLE}
 })
 
 User.plugin(passportLocalMongoose)
