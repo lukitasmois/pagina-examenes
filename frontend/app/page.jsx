@@ -2,6 +2,7 @@
 
 import LoginScreen from "@/src/pages/login/login-screen"
 import {  useAuthContext } from "@/src/components/context/AuthContext"
+import StudentDashboard from "@/src/pages/student/dashboard/student-dashboard"
 
 export default function Page() {
   const {userLogged, setUserLogged} = useAuthContext()
@@ -9,9 +10,15 @@ export default function Page() {
   return (
     <div>
       {userLogged.logged ? (
-        <h1>
-          hola
-        </h1>
+        userLogged.user.role == "STUDENT" ? (
+          <StudentDashboard>
+            
+          </StudentDashboard>
+        ) : (
+          <h1>
+            Hola otro
+          </h1>
+        )
       ) : (
         <LoginScreen />
       )}

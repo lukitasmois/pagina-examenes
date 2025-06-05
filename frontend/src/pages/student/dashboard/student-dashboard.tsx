@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { DashboardHeader } from "../components/dashboard-header"
-import { ExamCard } from "../components/exam-card"
-import { ExamFilters } from "../components/exam-filters"
+import { DashboardHeader } from "../../../components/dashboard-header"
+import { ExamCard } from "../../../components/exam-card"
+import { ExamFilters } from "../../../components/exam-filters"
 import { FileText } from "lucide-react"
 
 // Sample data

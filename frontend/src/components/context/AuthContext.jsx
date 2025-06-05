@@ -11,7 +11,7 @@ const useAuthContext = () =>{
 
 const AuthProvider = ({children}) => {
     const [userLogged, setUserLogged] = useState({
-        user: {_id: "", username: "", rol: "ESTUDIANTE"},
+        user: {_id: "", username: "", rol: "STUDENT"},
         logged: false
     })
 
@@ -22,7 +22,7 @@ const AuthProvider = ({children}) => {
                     withCredentials: true
                 }
             )
-            console.log("Contenido completo de la respuesta:", response);            
+            console.log("Contenido completo de la respuesta:", response.data);            
             setUserLogged(response.data)
         } catch (error) {
             console.error("Error al verificar la sesion del usuario: ", error);
