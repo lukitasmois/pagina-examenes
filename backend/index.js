@@ -48,8 +48,12 @@ passport.deserializeUser(User.deserializeUser())
 
 //Rutas
 const userRouter = require('./routes/userRouter')
+const examsRouter = require('./routes/examsRouter.js')
+const subjectsRouter = require('./routes/subjectsRouter.js')
 
 app.use('/api/users/', userRouter)
+app.use('/api/exams/', examsRouter)
+app.use('/api/subjects/', subjectsRouter)
 
 
 //crear admin
