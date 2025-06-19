@@ -1,11 +1,11 @@
 const Exam = require('../models/exam')
 const User = require('../models/user')
-const Subjet = require('../models/subjet')
+const Subject = require('../models/subject')
 
 const createExam = async (req, res) =>{
     const {
         title,
-        id_subjet,
+        id_subject,
         submmitedAt,
         dueDate,
         status,
@@ -23,15 +23,15 @@ const createExam = async (req, res) =>{
             throw new Error('El profesor es invalido.')
         }
 
-        const subjet = await Subjet.findById(id_subjet)
+        const subject = await Subject.findById(id_subject)
 
-        if(!subjet){
+        if(!subject){
             throw new Error('La materia es invalida.')
         }
 
         const newExam = new Exam({
             title,
-            id_subjet,
+            id_subject,
             submmitedAt,
             dueDate,
             status,

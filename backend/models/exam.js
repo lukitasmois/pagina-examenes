@@ -5,7 +5,7 @@ const VALID_STATUS = ['Pendiente', 'Entregado', 'Vencido', 'Corregido']
 
 const Exam = new Schema({
     title: {type: String, require: true, },
-    id_subjet: {type: String, require: true},
+    id_subject: {type: String, require: true},
     submmitedAt: {type: Date, default: null},
     dueDate: {type: String, require: true},
     status: {type: String, enum: VALID_STATUS, default: 'Pendiente'},

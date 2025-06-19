@@ -1,7 +1,7 @@
 const Subject = require('../models/subject')
 
 const createSubject = async (req, res) =>{
-    const {name, code_subjet: code_subject} = req.body
+    const {name, code_subject: code_subject} = req.body
 
     try {
         const newSubject = new Subject({
