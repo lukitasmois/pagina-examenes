@@ -19,14 +19,14 @@ const createExam = async (req, res) =>{
         
         const teacher = await User.findById(id_teacher)
         
-        if(!teacher){
-            throw new Error('El profesor es invalido.')
+        if(!teacher || teacher.role != 'TEACHER'){
+            return res.status(400).send({succes: false, message: 'El profesor es invalido.'})
         }
 
         const subject = await Subject.findById(id_subject)
 
         if(!subject){
-            throw new Error('La materia es invalida.')
+            return res.status(400).send({succes: false, message: 'La materia es invalida.'})
         }
 
         const newExam = new Exam({
