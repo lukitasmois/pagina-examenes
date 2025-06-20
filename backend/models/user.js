@@ -20,7 +20,8 @@ const User = new Schema({
       },
       required: true
     },
-    role: {type: String, enum: VALID_ROLES, default: DEFAULT_ROLE}
+    role: {type: String, enum: VALID_ROLES, default: DEFAULT_ROLE},
+    subjects: []
 })
 
 User.plugin(passportLocalMongoose)
