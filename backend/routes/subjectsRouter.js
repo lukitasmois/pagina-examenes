@@ -1,7 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const {createSubject} = require('../controllers/subjectsController')
+const {createSubject, getSubjets} = require('../controllers/subjectsController')
 
 router.post('/create', createSubject)
+
+router.get('/get-subjets', getSubjets)
 
 module.exports = router
