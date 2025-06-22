@@ -19,12 +19,16 @@ const createSubject = async (req, res) =>{
 }
 
 const getSubjets = async (req,res) =>{
-    const {id} = req.body
+    const {id} = req.params    
     try {
         const user = await User.findById(id)
         const subjects = user.subjects
+        
+        const subjectsFind = await Promise.all(subjects.map((subject)=>{
+            return Subject.findById(subject)
+        }))  
 
-        res.status(200).send({succes: true, subjects: subjects})
+        res.status(200).send({succes: true, subjects: subjectsFind})
     } catch (error) {
         console.log(error.message);
         

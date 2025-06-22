@@ -4,7 +4,7 @@ const {createSubject, getSubjets, addSubject} = require('../controllers/subjects
 
 router.post('/create', createSubject)
 
-router.get('/get-subjets', getSubjets)
+router.get('/get-subjets/:id', getSubjets)
 
 router.patch('/add-subject', addSubject)
 
