@@ -12,10 +12,9 @@ import { Textarea } from "../components/ui/textarea"
 import { CreateExamHeader } from "../components/create-exam-header"
 import { SubjectSelect } from "../components/subject-select"
 import { DateTimePicker } from "../components/date-time-picker"
-import { useToast } from "../components/ui/use-toast"
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function CreateExamForm() {
-  const { toast } = useToast()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     title: "",
@@ -38,30 +37,15 @@ export default function CreateExamForm() {
 
     // Basic validation
     if (!formData.title.trim()) {
-      toast({
-        title: "Missing Information",
-        description: "Please enter an exam title.",
-        variant: "destructive",
-      })
-      return
+      toast.error("Por favor seleccione ingrese un titulo para el examen.");
     }
 
     if (!formData.subject) {
-      toast({
-        title: "Missing Information",
-        description: "Please select a subject.",
-        variant: "destructive",
-      })
-      return
+      toast.error("Por favor seleccione una materia.");
     }
 
     if (!formData.dueDate) {
-      toast({
-        title: "Missing Information",
-        description: "Please select a due date.",
-        variant: "destructive",
-      })
-      return
+      toast.error("Por favor seleccione una fecha de entrega.");
     }
 
     setIsSubmitting(true)
@@ -71,19 +55,19 @@ export default function CreateExamForm() {
       await new Promise((resolve) => setTimeout(resolve, 1500))
       console.log("Form submitted:", formData)
 
-      toast({
-        title: "Exam Created",
-        description: "The exam has been successfully created.",
-      })
+      // toast({
+      //   title: "Exam Created",
+      //   description: "The exam has been successfully created.",
+      // })
 
       // Reset form or redirect
       handleBack()
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "There was a problem creating the exam. Please try again.",
-        variant: "destructive",
-      })
+      // toast({
+      //   title: "Error",
+      //   description: "There was a problem creating the exam. Please try again.",
+      //   variant: "destructive",
+      // })
     } finally {
       setIsSubmitting(false)
     }
@@ -113,7 +97,6 @@ export default function CreateExamForm() {
                   onChange={(e) => handleChange("title", e.target.value)}
                   placeholder="e.g., Integration Quiz - Chapter 5"
                   className="border-gray-200 focus:border-blue-400 focus:ring-blue-400"
-                  required
                 />
               </div>
 
@@ -190,6 +173,7 @@ export default function CreateExamForm() {
           </CardContent>
         </Card>
       </div>
+      <ToastContainer />
     </div>
   )
 }

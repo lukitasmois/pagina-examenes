@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Check, ChevronsUpDown, Plus } from "lucide-react"
 import { Button } from "../components/ui/button"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "../components/ui/command"
@@ -9,6 +9,8 @@ import { cn } from "@/lib/utils"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../components/ui/dialog"
 import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
+import axios from "axios"
+import { useAuthContext } from "./context/AuthContext"
 
 interface SubjectSelectProps {
   value: string
@@ -19,27 +21,30 @@ export function SubjectSelect({ value, onChange }: SubjectSelectProps) {
   const [open, setOpen] = useState(false)
   const [newSubjectDialogOpen, setNewSubjectDialogOpen] = useState(false)
   const [newSubject, setNewSubject] = useState("")
+  const {userLogged, setUserLogged} = useAuthContext()
 
   // Sample subjects - in a real app, these would come from an API
-  const [subjects, setSubjects] = useState([
-    { value: "mathematics", label: "Mathematics" },
-    { value: "physics", label: "Physics" },
-    { value: "chemistry", label: "Chemistry" },
-    { value: "biology", label: "Biology" },
-    { value: "english", label: "English" },
-    { value: "history", label: "History" },
-    { value: "computer_science", label: "Computer Science" },
-  ])
+  const [subjects, setSubjects] = useState([])
 
-  const handleAddNewSubject = () => {
-    if (newSubject.trim()) {
-      const newSubjectValue = newSubject.toLowerCase().replace(/\s+/g, "_")
-      setSubjects([...subjects, { value: newSubjectValue, label: newSubject.trim() }])
-      onChange(newSubjectValue)
-      setNewSubject("")
-      setNewSubjectDialogOpen(false)
-      setOpen(false)
-    }
+  useEffect(() =>{
+    const id = userLogged.user._id;
+    axios
+      .get(`http://localhost:3000/api/subjects/get-subjets/${id}`)
+      .then((res) => {
+        
+        const subjects = res.data.subjects;
+        const subjetsLoad = subjects.map((subject) =>({
+          value: subject._id,
+          label: `${subject.code_subject} - ${subject.name}`
+        }))
+
+        setSubjects(subjetsLoad)
+      });
+  }, [userLogged.user._id])
+
+  const loadSubjets = async () =>{
+ 
+
   }
 
   return (
@@ -79,51 +84,9 @@ export function SubjectSelect({ value, onChange }: SubjectSelectProps) {
                 ))}
               </CommandGroup>
             </CommandList>
-            <CommandList>
-              <CommandGroup>
-                <CommandItem
-                  onSelect={() => {
-                    setNewSubjectDialogOpen(true)
-                    setOpen(false)
-                  }}
-                >
-                  <Plus className="mr-2 h-4 w-4" />
-                  Add new subject
-                </CommandItem>
-              </CommandGroup>
-            </CommandList>
           </Command>
         </PopoverContent>
       </Popover>
-
-      {/* Dialog for adding a new subject */}
-      <Dialog open={newSubjectDialogOpen} onOpenChange={setNewSubjectDialogOpen}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Add New Subject</DialogTitle>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid gap-2">
-              <Label htmlFor="new-subject">Subject Name</Label>
-              <Input
-                id="new-subject"
-                value={newSubject}
-                onChange={(e) => setNewSubject(e.target.value)}
-                placeholder="Enter subject name"
-                className="border-gray-200 focus:border-blue-400 focus:ring-blue-400"
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setNewSubjectDialogOpen(false)}>
-              Cancel
-            </Button>
-            <Button onClick={handleAddNewSubject} disabled={!newSubject.trim()}>
-              Add Subject
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </>
   )
 }
