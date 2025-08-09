@@ -5,7 +5,7 @@ const VALID_STATUS = ['pendiente', 'entregado', 'vencido', 'corregido', 'publica
 const KINDS = ['assignment', 'submission']
 
 const Exam = new Schema({
-    kind: { type: String, enum: KINDS, required: true},
+    kind: { type: String, enum: KINDS},
     title: {type: String, required: true, },
     id_subject: {type: String, required: true},
     dueDate: {type: String, required: true},
@@ -16,7 +16,7 @@ const Exam = new Schema({
     feedback: {type:String },
     grade: {type: Number },
     note: {type: String },
-    id_student: {type: String, required: true},
+    id_student: {type: String},
     files: [String]
 })
 
