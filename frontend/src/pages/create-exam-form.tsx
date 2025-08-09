@@ -35,7 +35,6 @@ export default function CreateExamForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    // Basic validation
     if (!formData.title.trim()) {
       toast.error("Por favor seleccione ingrese un titulo para el examen.");
     }
