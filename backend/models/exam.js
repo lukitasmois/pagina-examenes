@@ -6,11 +6,12 @@ const KINDS = ['assignment', 'submission']
 
 const Exam = new Schema({
     kind: { type: String, enum: KINDS},
-    title: {type: String, required: true, },
+    title: {type: String, required: true},
     id_subject: {type: String, required: true},
     dueDate: {type: String, required: true},
     status: {type: String, enum: VALID_STATUS},
     id_teacher: {type: String, required: true},
+    instructions: [String],
 
     submmitedAt: {type: Date},
     feedback: {type:String },

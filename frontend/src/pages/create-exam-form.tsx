@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Save, X } from "lucide-react"
 import { Button } from "../components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
@@ -13,12 +13,15 @@ import { CreateExamHeader } from "../components/create-exam-header"
 import { SubjectSelect } from "../components/subject-select"
 import { DateTimePicker } from "../components/date-time-picker"
 import { ToastContainer, toast } from 'react-toastify';
+import axios from "axios"
+import { useAuthContext } from "../components/context/AuthContext"
 
 export default function CreateExamForm() {
+  const {userLogged} = useAuthContext()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     title: "",
-    subject: "",
+    id_subject: "",
     dueDate: undefined as Date | undefined,
     instructions: "",
   })
@@ -39,7 +42,7 @@ export default function CreateExamForm() {
       toast.error("Por favor seleccione ingrese un titulo para el examen.");
     }
 
-    if (!formData.subject) {
+    if (!formData.id_subject) {
       toast.error("Por favor seleccione una materia.");
     }
 
@@ -51,22 +54,28 @@ export default function CreateExamForm() {
 
     // Simulate API call
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-      console.log("Form submitted:", formData)
+      const examAssigment = {
+        title: formData.title,
+        id_subject: formData.id_subject,
+        dueDate: formData.dueDate,
+        id_teacher: userLogged.user._id,
+        kind: 'assignment',
+      }
+      const response = await axios.post('http://localhost:3000/api/exams/create', examAssigment)
+      
+      toast.success('Examen creado.')
 
-      // toast({
-      //   title: "Exam Created",
-      //   description: "The exam has been successfully created.",
-      // })
+      setFormData({
+        title: "",
+        id_subject: "",
+        dueDate: undefined,
+        instructions: "",
+      })
 
-      // Reset form or redirect
       handleBack()
     } catch (error) {
-      // toast({
-      //   title: "Error",
-      //   description: "There was a problem creating the exam. Please try again.",
-      //   variant: "destructive",
-      // })
+      console.log(error);
+      toast.error("Error al crear un examen, intentelo nuevamente.");
     } finally {
       setIsSubmitting(false)
     }
@@ -104,7 +113,7 @@ export default function CreateExamForm() {
                 <Label htmlFor="subject" className="text-sm font-medium text-gray-700">
                   Subject *
                 </Label>
-                <SubjectSelect value={formData.subject} onChange={(value) => handleChange("subject", value)} />
+                <SubjectSelect value={formData.id_subject} onChange={(value) => handleChange("id_subject", value)} />
               </div>
 
               {/* Due Date */}
