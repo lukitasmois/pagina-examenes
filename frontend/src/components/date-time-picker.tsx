@@ -1,34 +1,62 @@
 "use client"
 
-import { CalendarIcon, Clock } from "lucide-react"
+import { useState, useMemo } from "react"
+import { CalendarIcon, Clock, X } from "lucide-react"
 import { format } from "date-fns"
+import { es } from "date-fns/locale"
 import { cn } from "@/lib/utils"
+
 import { Button } from "../components/ui/button"
 import { Calendar } from "../components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "../components/ui/popover"
-import { useState } from "react"
 import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
 
 interface DateTimePickerProps {
   value: Date | undefined
   onChange: (date: Date | undefined) => void
+  placeholder?: string
+  closeOnSelectDate?: boolean
 }
 
-export function DateTimePicker({ value, onChange }: DateTimePickerProps) {
+export function DateTimePicker({
+  value,
+  onChange,
+  placeholder = "Selecciona fecha y hora…",
+  closeOnSelectDate = false,
+}: DateTimePickerProps) {
   const [open, setOpen] = useState(false)
 
-  // Extract hours and minutes from the value
   const hours = value ? value.getHours().toString().padStart(2, "0") : ""
   const minutes = value ? value.getMinutes().toString().padStart(2, "0") : ""
 
-  const handleTimeChange = (hours: string, minutes: string) => {
-    if (!value) return
+  const pretty = useMemo(() => {
+    if (!value) return null
+    try {
+      return format(value, "PPP 'a las' p", { locale: es })
+    } catch {
+      return value.toLocaleString()
+    }
+  }, [value])
 
-    const newDate = new Date(value)
-    newDate.setHours(Number.parseInt(hours) || 0)
-    newDate.setMinutes(Number.parseInt(minutes) || 0)
-    onChange(newDate)
+  const setTime = (h: number, m: number) => {
+    const clampedH = Math.min(23, Math.max(0, h || 0))
+    const clampedM = Math.min(59, Math.max(0, m || 0))
+    const base = value ? new Date(value) : new Date()
+    base.setHours(clampedH, clampedM, 0, 0)
+    onChange(base)
+  }
+
+  const handleHoursChange = (raw: string) => {
+    if (!raw && value) return
+    const h = Number.parseInt(raw, 10)
+    if (!Number.isNaN(h)) setTime(h, value ? value.getMinutes() : 0)
+  }
+
+  const handleMinutesChange = (raw: string) => {
+    if (!raw && value) return
+    const m = Number.parseInt(raw, 10)
+    if (!Number.isNaN(m)) setTime(value ? value.getHours() : 0, m)
   }
 
   const handleDateChange = (date: Date | undefined) => {
@@ -36,75 +64,113 @@ export function DateTimePicker({ value, onChange }: DateTimePickerProps) {
       onChange(undefined)
       return
     }
-
-    // Preserve the time from the existing value or set to end of day
-    const newDate = new Date(date)
+    const next = new Date(date)
     if (value) {
-      newDate.setHours(value.getHours())
-      newDate.setMinutes(value.getMinutes())
+      next.setHours(value.getHours(), value.getMinutes(), 0, 0)
     } else {
-      newDate.setHours(23)
-      newDate.setMinutes(59)
+      next.setHours(23, 59, 0, 0)
     }
-
-    onChange(newDate)
+    onChange(next)
+    if (closeOnSelectDate) setOpen(false)
   }
+
+  const setNow = () => {
+    const now = new Date()
+    onChange(now)
+  }
+
+  const setEOD = () => {
+    const base = value ? new Date(value) : new Date()
+    base.setHours(23, 59, 0, 0)
+    onChange(base)
+  }
+
+  const clearAll = () => onChange(undefined)
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant={"outline"}
+          variant="outline"
           className={cn(
             "w-full justify-start text-left font-normal border-gray-200 bg-white hover:bg-gray-50",
-            !value && "text-muted-foreground",
+            !value && "text-muted-foreground"
           )}
         >
-          <div className="flex items-center">
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            {value ? format(value, "PPP 'at' p") : <span>Select due date and time...</span>}
-          </div>
+          <CalendarIcon className="mr-2 h-4 w-4" />
+          {pretty ?? <span>{placeholder}</span>}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
-        <Calendar mode="single" selected={value} onSelect={handleDateChange} initialFocus />
-        <div className="border-t border-gray-200 p-3 space-y-2">
-          <Label className="text-sm font-medium">Time</Label>
-          <div className="flex items-center space-x-2">
-            <div className="flex items-center space-x-1">
+
+      <PopoverContent
+        side="left"
+        align="start"
+        sideOffset={8}
+        avoidCollisions={false}
+        className="w-auto p-0"
+      >
+        <div className="flex">
+          {/* Calendario */}
+          <div className="p-2 border-r border-gray-200">
+            <Calendar
+              mode="single"
+              selected={value}
+              onSelect={handleDateChange}
+              initialFocus
+              fixedWeeks
+              className="[--cell-size:--spacing(7)]"
+            />
+          </div>
+
+          {/* Bloque de hora y acciones */}
+          <div className="p-3 w-[180px] space-y-3">
+            <Label className="text-sm font-medium flex items-center gap-2">
               <Clock className="h-4 w-4 text-gray-500" />
+              Hora
+            </Label>
+
+            <div className="flex items-center gap-1">
               <Input
-                type="number"
-                min={0}
-                max={23}
+                inputMode="numeric"
+                pattern="[0-9]*"
+                type="text"
                 value={hours}
-                onChange={(e) => handleTimeChange(e.target.value, minutes)}
-                className="w-16 border-gray-200"
+                onChange={(e) => handleHoursChange(e.target.value)}
                 placeholder="HH"
+                className="w-14 text-center"
+                aria-label="Horas (0–23)"
               />
-              <span>:</span>
+              <span className="select-none">:</span>
               <Input
-                type="number"
-                min={0}
-                max={59}
+                inputMode="numeric"
+                pattern="[0-9]*"
+                type="text"
                 value={minutes}
-                onChange={(e) => handleTimeChange(hours, e.target.value)}
-                className="w-16 border-gray-200"
+                onChange={(e) => handleMinutesChange(e.target.value)}
                 placeholder="MM"
+                className="w-14 text-center"
+                aria-label="Minutos (0–59)"
               />
             </div>
-            <Button
-              size="sm"
-              onClick={() => {
-                const now = new Date()
-                const newDate = value ? new Date(value) : now
-                newDate.setHours(23)
-                newDate.setMinutes(59)
-                onChange(newDate)
-              }}
-            >
-              End of Day
-            </Button>
+
+            <div className="flex flex-col gap-2">
+              <Button size="sm" onClick={setNow}>Ahora</Button>
+              <Button size="sm" onClick={setEOD}>Fin de día</Button>
+              <Button variant="ghost" size="sm" onClick={clearAll}>Limpiar</Button>
+            </div>
+
+            {/* Botón para cerrar */}
+            <div className="pt-2 border-t border-gray-200 flex justify-end">
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-1"
+              >
+                ✅
+                Aceptar
+              </Button>
+            </div>
           </div>
         </div>
       </PopoverContent>
