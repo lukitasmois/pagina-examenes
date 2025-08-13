@@ -1,12 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import { TeacherHeader } from "../components/teacher-header"
-import { SubjectSection } from "../components/subject-section"
-import { CreateExamModal } from "../components/create-exam-modal"
-import { DashboardFilters } from "../components/dashboard-filters"
+import { TeacherHeader } from "../../components/teacher-header"
+import { SubjectSection } from "../../components/subject-section"
+import { CreateExamModal } from "../../components/create-exam-modal"
+import { DashboardFilters } from "../../components/dashboard-filters"
 import { BarChart3, Users, FileText, Clock } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card"
 
 // Sample data
 const sampleSubjects = [
