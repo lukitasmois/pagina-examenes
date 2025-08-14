@@ -45,8 +45,36 @@ const createExam = async (req, res) =>{
         res.send({succes: true, exam: newExam})
     } catch (error) {
         res.status(400).send({succes: false, message: 'Error al crear un examen'})
-        console.log('Error: ', error.message);
+        console.log('Error createExam: ', error.message);
     }
 }
 
-module.exports = {createExam}
+const getAssignmentsBySubject = async (req, res) =>{   
+    try {
+    const { id_subject } = req.body;
+
+    if (!id_subject) {
+      return res.status(400).send({ success: false, message: 'Falta el id de la materia.' });
+    }
+
+    const exams = await Exam.find({
+      id_subject: id_subject,
+      kind: 'assignment'
+    }).sort({ dueDate: 1 });
+    return res.status(200).send({
+      success: true,
+      count: exams.length,
+      exams
+    });
+
+  } catch (error) {
+    console.error('Error getAssignmentsBySubject:', error.message);
+    return res.status(500).send({
+      success: false,
+      message: 'Error al obtener las consignas de la materia.'
+    });
+  }
+
+}
+
+module.exports = {createExam, getAssignmentsBySubject}
