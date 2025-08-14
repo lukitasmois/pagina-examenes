@@ -4,16 +4,15 @@ const Subject = require('../models/subject')
 
 const createExam = async (req, res) =>{
     const {
+        kind,
         title,
         id_subject,
-        submmitedAt,
         dueDate,
-        status,
         id_teacher,
-        feedback,
-        grade,
-        note
-    } = req.body
+        instructions,
+        status,
+        } = req.body;
+
 
     try {
         
@@ -30,15 +29,13 @@ const createExam = async (req, res) =>{
         }
 
         const newExam = new Exam({
+            kind,
             title,
             id_subject,
-            submmitedAt,
             dueDate,
-            status,
             id_teacher,
-            feedback,
-            grade,
-            note
+            instructions,
+            status,
         })
 
         const exam = await newExam.save()
