@@ -79,4 +79,32 @@ const getAssignmentsBySubject = async (req, res) =>{
 
 }
 
-module.exports = {createExam, getAssignmentsBySubject}
+const getSubmissionByStudent = async (req, res) =>{     
+    try {
+    const { id_student } = req.params;
+    
+    if (!id_student) {
+      return res.status(400).send({ success: false, message: 'Error al buscar el alumno.' });
+    }
+
+    const exams = await Exam.find({
+      id_student: id_student,
+      kind: 'submission'
+    }).sort({ dueDate: 1 });
+    return res.status(200).send({
+      success: true,
+      count: exams.length,
+      exams
+    });
+
+  } catch (error) {
+    console.error('Error getSubmissionByStudent:', error.message);
+    return res.status(500).send({
+      success: false,
+      message: 'Error al obtener los examenes.'
+    });
+  }
+
+}
+
+module.exports = {createExam, getAssignmentsBySubject, getSubmissionByStudent}
