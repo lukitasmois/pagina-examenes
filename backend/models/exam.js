@@ -13,6 +13,10 @@ const Exam = new Schema({
     id_teacher: {type: String, required: true},
     instructions: [String],
     createdDate: { type: Date, default: Date.now },
+    submissionsPending: {type: Number, default: 0},
+    submissionsCorrected: {type: Number, default: 0},
+    totalStudents: {type: Number, default: 0},
+
 
     submmitedAt: {type: Date},
     feedback: {type:String },
