@@ -1,7 +1,7 @@
 import { BookOpen, Plus } from 'lucide-react'
 import { Button } from "../components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
-import { ExamCard } from "./exam-card"
+import { AssignmentExamCard } from './assignment-exam-card'
 
 interface SubjectSectionProps {
   subject: {
@@ -49,7 +49,7 @@ export function SubjectSection({ subject, onCreateExam, onViewSubmissions }: Sub
         {subject.exams.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {subject.exams.map((exam) => (
-              <ExamCard
+              <AssignmentExamCard
                 key={exam.id}
                 exam={exam}
                 onViewSubmissions={onViewSubmissions}
