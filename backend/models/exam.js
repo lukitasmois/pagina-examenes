@@ -10,7 +10,11 @@ const Exam = new Schema({
     id_subject: {type: String, required: true},
     dueDate: {type: String, required: true},
     status: {type: String, enum: VALID_STATUS},
-    id_teacher: {type: String, required: true},
+    teacher: {
+        _id: { type: String},
+        name: { type: String},
+        lastName: { type: String},
+    },
     instructions: [String],
     createdDate: { type: Date, default: Date.now },
     submissionsPending: {type: Number, default: 0},

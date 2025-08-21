@@ -36,7 +36,7 @@ const createExam = async (req, res) =>{
             submmitedAt,
             dueDate,
             status,
-            id_teacher,
+            teacher,
             feedback,
             grade,
             note,
