@@ -12,7 +12,8 @@ const createExam = async (req, res) =>{
         id_teacher,
         feedback,
         grade,
-        note
+        note,
+        kind
     } = req.body
 
     try {
@@ -38,7 +39,8 @@ const createExam = async (req, res) =>{
             id_teacher,
             feedback,
             grade,
-            note
+            note,
+            kind
         })
 
         const exam = await newExam.save()
@@ -49,10 +51,10 @@ const createExam = async (req, res) =>{
     }
 }
 
-const getAssignmentsBySubject = async (req, res) =>{   
+const getAssignmentsBySubject = async (req, res) =>{     
     try {
-    const { id_subject } = req.body;
-
+    const { id_subject } = req.params;
+    
     if (!id_subject) {
       return res.status(400).send({ success: false, message: 'Falta el id de la materia.' });
     }

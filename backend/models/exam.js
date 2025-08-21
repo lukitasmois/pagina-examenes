@@ -12,6 +12,7 @@ const Exam = new Schema({
     status: {type: String, enum: VALID_STATUS},
     id_teacher: {type: String, required: true},
     instructions: [String],
+    createdDate: { type: Date, default: Date.now },
 
     submmitedAt: {type: Date},
     feedback: {type:String },

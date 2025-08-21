@@ -5,6 +5,6 @@ const {createExam, getAssignmentsBySubject} = require('../controllers/examsContr
 
 router.post('/create', createExam)
 
-router.get('/getAssignmentsBySubject', getAssignmentsBySubject)
+router.get('/getAssignmentsBySubject/:id_subject', getAssignmentsBySubject)
 
 module.exports= router
