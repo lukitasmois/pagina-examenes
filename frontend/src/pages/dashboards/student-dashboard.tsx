@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { DashboardHeader } from "../../components/dashboard-header"
 import { SubmissionExamCard } from "@/src/components/submission-exam-card"
 import { ExamFilters } from "../../components/exam-filters"
 import { FileText } from "lucide-react"
 import { useAuthContext } from "@/src/components/context/AuthContext"
+import axios from "axios"
 
 // Sample data
 const sampleExams = [
@@ -25,6 +26,29 @@ export default function StudentDashboard() {
   const {userLogged} = useAuthContext()
   const studentName = userLogged.user.name + ' ' + userLogged.user.lastName
 
+  useEffect(() =>{
+    fetchExamns()
+  }, [userLogged?.user?._id])
+
+  async function fetchExamns() {
+    try {
+      const {data} = await axios.get(
+          `http://localhost:3000/api/exams/getSubmissionByStudent/${userLogged.user._id}`
+        );
+
+        const exams = data.exams.map((exam) =>{
+          return{
+            id: exam._id,
+            title: exam.title + 'aaa'
+          }
+        })
+        setExams(exams)
+        setFilteredExams(exams)
+        
+    } catch (err) {
+    console.error(err);
+  }
+}
   const handleSubjectFilter = (subject: string) => {
     if (subject === "all") {
       setFilteredExams(exams)
