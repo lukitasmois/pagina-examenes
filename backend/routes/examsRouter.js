@@ -5,8 +5,6 @@ const {createExam, getAssignmentsBySubject, getSubmissionByStudent} = require('.
 
 router.post('/create', createExam)
 
-router.get('/getAssignmentsBySubject/:id_subject', getAssignmentsBySubject)
-
 router.get('/getSubmissionByStudent/:id_student', getSubmissionByStudent)
 
 module.exports= router

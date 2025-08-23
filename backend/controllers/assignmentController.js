@@ -41,7 +41,35 @@ const createAssignment = async (req, res) =>{
     }
 }
 
+const getAssignmentsBySubject = async (req, res) =>{     
+    try {
+    const { id_subject } = req.params;
+    
+    if (!id_subject) {
+      return res.status(400).send({ success: false, message: 'Falta el id de la materia.' });
+    }
+
+    const assignments = await Assignment.find({
+      id_subject: id_subject,
+    }).sort({ dueDate: 1 });
+    return res.status(200).send({
+      success: true,
+      count: assignments.length,
+      assignments
+    });
+
+  } catch (error) {
+    console.error('Error getAssignmentsBySubject:', error.message);
+    return res.status(500).send({
+      success: false,
+      message: 'Error al obtener las consignas de la materia.'
+    });
+  }
+
+}
+
 module.exports = {
-    createAssignment
+    createAssignment,
+    getAssignmentsBySubject
 }
     
