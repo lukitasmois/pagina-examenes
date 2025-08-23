@@ -56,13 +56,13 @@ async function fetchExams() {
     const subjectsWithExams = await Promise.all(
       subjects.map(async (subject: any) => {
         const { data: dataExams } = await axios.get(
-          `http://localhost:3000/api/exams/getAssignmentsBySubject/${subject._id}`
+          `http://localhost:3000/api/assignments/getAssignments/${subject._id}`
         );
         return {
           id: subject._id,
           name: subject.name,
           code: subject.code_subject,
-          exams: dataExams?.exams ?? [],
+          exams: dataExams?.assignments ?? [],
         };
       })
     );
