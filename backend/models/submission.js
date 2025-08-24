@@ -5,7 +5,11 @@ const VALID_STATUS = ['Pendiente', 'Entregado', 'Vencido', 'Corregido', 'No Entr
 
 const Submission = new Schema({
     title: {type: String, required: true},
-    id_subject: {type: String, required: true},
+    subject: {
+        _id: { type: String},
+        name: {type: String, required: true},
+        code_subject: {type: String, required: true, unique: true}
+    },
     status: {type: String, enum: VALID_STATUS, default: 'Pendiente'},
     student:{
         _id: { type: String},
@@ -20,7 +24,7 @@ const Submission = new Schema({
     files: [String]
 })
 
-Submission.index({ "student._id": 1, id_assignment: 1 }, { unique: true });
+Submission.index({ "student._id": 1, id_assignment: 1 });
 
 
 module.exports = mongoose.model('Submission', Submission)

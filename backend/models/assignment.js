@@ -15,6 +15,7 @@ const Assignment = new Schema({
     },
     instructions: { type: String },
     createdDate: { type: Date, default: Date.now },
+    students: [String],
     submissionsPending: {type: Number, default: 0},
     submissionsCorrected: {type: Number, default: 0},
     totalStudents: {type: Number, default: 0},

@@ -17,7 +17,15 @@ const sampleExams = [
     teacher: "Ms. Johnson",
     dueDate: "2025-01-15",
     status: "not_submitted" as const,
-  }
+  },
+    {
+    id: "6",
+    title: "Chemistry Lab Report",
+    subject: "Science",
+    teacher: "Dr. Wilson",
+    dueDate: "2025-01-18",
+    status: "submitted" as const,
+  },
 ]
 
 export default function StudentDashboard() {
@@ -33,13 +41,15 @@ export default function StudentDashboard() {
   async function fetchExamns() {
     try {
       const {data} = await axios.get(
-          `http://localhost:3000/api/exams/getSubmissionByStudent/${userLogged.user._id}`
+          `http://localhost:3000/api/submissions/getSubmissions/${userLogged.user._id}`
         );
 
-        const exams = data.exams.map((exam) =>{
+        const exams = data.submissions.map((exam) =>{
           return{
             id: exam._id,
-            title: exam.title + 'aaa'
+            title: exam.title + 'aaa',
+            subject: exam.subject.name,
+            status: exam.status
           }
         })
         setExams(exams)

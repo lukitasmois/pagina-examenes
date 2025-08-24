@@ -10,12 +10,12 @@ interface ExamCardProps {
     subject: string
     teacher: string
     dueDate: string
-    status: "not_submitted" | "submitted"
+    status: "No Entregado" | "Entregado"
   }
 }
 
 export function SubmissionExamCard({ exam }: ExamCardProps) {
-  const isSubmitted = exam.status === "submitted"
+  const isSubmitted = exam.status === "Entregado"
   const isOverdue = new Date(exam.dueDate) < new Date() && !isSubmitted
 
   return (
@@ -56,10 +56,6 @@ export function SubmissionExamCard({ exam }: ExamCardProps) {
         <div className="space-y-2">
           <div className="flex items-center text-sm text-gray-600">
             <span className="font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-md">{exam.subject}</span>
-          </div>
-          <div className="flex items-center text-sm text-gray-600">
-            <User className="w-4 h-4 mr-2" />
-            <span>{exam.teacher}</span>
           </div>
           <div className="flex items-center text-sm text-gray-600">
             <Calendar className="w-4 h-4 mr-2" />

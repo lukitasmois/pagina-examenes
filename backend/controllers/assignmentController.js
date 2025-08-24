@@ -2,6 +2,10 @@ const Assignment = require('../models/assignment')
 const User = require('../models/user')
 const Subject = require('../models/subject')
 
+const {
+  generateSubmission
+} = require('../helpers/submissions')
+
 const createAssignment = async (req, res) =>{
     const {
         title,
@@ -25,16 +29,44 @@ const createAssignment = async (req, res) =>{
             return res.status(400).send({succes: false, message: 'La materia es invalida.'})
         }
 
+        const listUsers = await User.find({
+          subjects: id_subject,
+        })
+        
+
+        const idStudents = listUsers
+        .filter(user => user.role === 'STUDENT')
+        .map(student => student._id)        
+        
         const newAssignment = new Assignment({
             title,
             id_subject,
             dueDate,
             teacher,
             instructions,
+            students: idStudents,
+            submissionsPending: idStudents.length,
+            totalStudents: idStudents.length
         })
 
         const assignment = await newAssignment.save()
+
+        const submissions = [];
+        for (const id_student of idStudents) {
+          try {
+            const submission = await generateSubmission({
+            id_subject,
+            id_student,
+            id_assignment: newAssignment._id
+          });
+          submissions.push(submission);
+          } catch (error) {
+            console.warn(`No se pudo crear submission para estudiante ${id_student}: ${error.message}`);
+          }
+        }        
+        
         res.send({succes: true, assignment: assignment})
+
     } catch (error) {
         res.status(400).send({succes: false, message: 'Error al crear un examen'})
         console.log('Error createAssignment: ', error.message);

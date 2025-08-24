@@ -1,0 +1,36 @@
+const User = require('../models/user');
+const Subject = require('../models/subject');
+const Submission = require('../models/submission');
+
+const generateSubmission = async ({ id_subject, id_student, id_assignment }) => {
+  const student = await User.findById(id_student);
+  if (!student || student.role !== 'STUDENT') {
+    throw new Error('Estudiante inválido.');
+  }
+
+  const subject = await Subject.findById(id_subject);
+  if (!subject) {
+    throw new Error('Materia inválida.');
+  }
+
+  const existingSubmission = await Submission.findOne({
+    student: id_student,
+    id_assignment
+  });
+
+  if (existingSubmission) {
+    throw new Error('Ya existe una entrega para este estudiante.');
+  }
+
+  const newSubmission = new Submission({
+    title: `Examen de ${subject.name}`,
+    subject,
+    student,
+    id_assignment,
+    file: null
+  });
+
+  return await newSubmission.save();
+};
+
+module.exports = { generateSubmission };
