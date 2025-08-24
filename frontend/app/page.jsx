@@ -7,9 +7,13 @@ import StudentDashboard from "@/src/pages/dashboards/student-dashboard"
 import TeacherDashboard from "@/src/pages/dashboards/teacher-dashboard"
 
 export default function Page() {
-  const {userLogged, setUserLogged} = useAuthContext()
-  console.log('userLogged', userLogged);
-  
+  const {userLogged, loading} = useAuthContext()
+
+  if (loading) {
+  return <div className="w-screen h-screen flex items-center justify-center">Cargando...</div>;
+}
+
+
   return (
     <div>
       {userLogged.logged ? (

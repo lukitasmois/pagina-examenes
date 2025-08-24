@@ -11,26 +11,27 @@ import { useAuthContext } from "@/src/components/context/AuthContext"
 import axios from "axios"
 
 // Sample data
-const sampleSubjects = [
-  {
-    id: "1",
-    name: "Advanced Mathematics",
-    code: "MATH-401",
-    exams: [
-      {
-        id: "1",
-        title: "Calculus Integration Quiz",
-        createdDate: "2025-01-05",
-        dueDate: "2025-01-15",
-        submissionsPending: 8,
-        submissionsCorrected: 12,
-        totalStudents: 25,
-      },
-    ],
-  },
-]
+// const sampleSubjects = [
+//   {
+//     id: "1",
+//     name: "Advanced Mathematics",
+//     code: "MATH-401",
+//     exams: [
+//       {
+//         id: "1",
+//         title: "Calculus Integration Quiz",
+//         createdDate: "2025-01-05",
+//         dueDate: "2025-01-15",
+//         submissionsPending: 8,
+//         submissionsCorrected: 12,
+//         totalStudents: 25,
+//       },
+//     ],
+//   },
+// ]
 
 export default function TeacherDashboard() {
+  const sampleSubjects = []
   const [subjects, setSubjects] = useState(sampleSubjects)
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [selectedSubject, setSelectedSubject] = useState<string>("")

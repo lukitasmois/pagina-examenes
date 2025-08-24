@@ -9,26 +9,27 @@ import { useAuthContext } from "@/src/components/context/AuthContext"
 import axios from "axios"
 
 // Sample data
-const sampleExams = [
-  {
-    id: "1",
-    title: "Algebra Quiz - Chapter 5",
-    subject: "Mathematics",
-    teacher: "Ms. Johnson",
-    dueDate: "2025-01-15",
-    status: "not_submitted" as const,
-  },
-    {
-    id: "6",
-    title: "Chemistry Lab Report",
-    subject: "Science",
-    teacher: "Dr. Wilson",
-    dueDate: "2025-01-18",
-    status: "submitted" as const,
-  },
-]
+// const sampleExams = [
+//   {
+//     id: "1",
+//     title: "Algebra Quiz - Chapter 5",
+//     subject: "Mathematics",
+//     teacher: "Ms. Johnson",
+//     dueDate: "2025-01-15",
+//     status: "not_submitted" as const,
+//   },
+//     {
+//     id: "6",
+//     title: "Chemistry Lab Report",
+//     subject: "Science",
+//     teacher: "Dr. Wilson",
+//     dueDate: "2025-01-18",
+//     status: "submitted" as const,
+//   },
+// ]
 
 export default function StudentDashboard() {
+  const sampleExams = []
   const [exams, setExams] = useState(sampleExams)
   const [filteredExams, setFilteredExams] = useState(sampleExams)
   const {userLogged} = useAuthContext()

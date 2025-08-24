@@ -25,8 +25,9 @@ export default function LoginScreen() {
         const request = await axios.post('http://localhost:3000/api/users/login', user, {
           withCredentials: true
         })
-        console.log(request);
-        
+
+        window.location.reload()
+
       } catch (error) {
         console.log(error.message);
       }
