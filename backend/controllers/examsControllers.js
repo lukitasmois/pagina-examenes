@@ -12,7 +12,6 @@ const createExam = async (req, res) =>{
         feedback,
         grade,
         note,
-        kind
     } = req.body
 
     try {
