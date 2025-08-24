@@ -1,33 +1,24 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const VALID_STATUS = ['pendiente', 'entregado', 'vencido', 'corregido', 'publicado']
-const KINDS = ['assignment', 'submission']
+const VALID_STATUS = ['Cargado', 'Vencido']
 
-const Exam = new Schema({
-    kind: { type: String, enum: KINDS},
+const Assignment = new Schema({
     title: {type: String, required: true},
     id_subject: {type: String, required: true},
     dueDate: {type: String, required: true},
-    status: {type: String, enum: VALID_STATUS},
+    status: {type: String, enum: VALID_STATUS, default: 'Cargado'},
     teacher: {
         _id: { type: String},
         name: { type: String},
         lastName: { type: String},
     },
-    instructions: [String],
+    instructions: { type: String },
     createdDate: { type: Date, default: Date.now },
+    students: [String],
     submissionsPending: {type: Number, default: 0},
     submissionsCorrected: {type: Number, default: 0},
     totalStudents: {type: Number, default: 0},
-
-
-    submmitedAt: {type: Date},
-    feedback: {type:String },
-    grade: {type: Number },
-    note: {type: String },
-    id_student: {type: String},
-    files: [String]
 })
 
-module.exports = mongoose.model('Exam', Exam)
+module.exports = mongoose.model('Assignment', Assignment)

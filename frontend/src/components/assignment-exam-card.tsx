@@ -16,7 +16,7 @@ interface ExamCardProps {
   onViewSubmissions: (examId: string) => void
 }
 
-export function ExamCard({ exam, onViewSubmissions }: ExamCardProps) {
+export function AssignmentExamCard({ exam, onViewSubmissions }: ExamCardProps) {
   const totalSubmissions = exam.submissionsPending + exam.submissionsCorrected
   const isOverdue = new Date(exam.dueDate) < new Date()
   

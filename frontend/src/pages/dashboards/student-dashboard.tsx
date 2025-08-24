@@ -1,68 +1,67 @@
 "use client"
 
-import { useState } from "react"
-import { DashboardHeader } from "../components/dashboard-header"
-import { ExamCard } from "../components/exam-card"
-import { ExamFilters } from "../components/exam-filters"
+import { useEffect, useState } from "react"
+import { DashboardHeader } from "../../components/dashboard-header"
+import { SubmissionExamCard } from "@/src/components/submission-exam-card"
+import { ExamFilters } from "../../components/exam-filters"
 import { FileText } from "lucide-react"
+import { useAuthContext } from "@/src/components/context/AuthContext"
+import axios from "axios"
 
 // Sample data
-const sampleExams = [
-  {
-    id: "1",
-    title: "Algebra Quiz - Chapter 5",
-    subject: "Mathematics",
-    teacher: "Ms. Johnson",
-    dueDate: "2025-01-15",
-    status: "not_submitted" as const,
-  },
-  {
-    id: "2",
-    title: "Cell Biology Test",
-    subject: "Science",
-    teacher: "Mr. Davis",
-    dueDate: "2025-01-12",
-    status: "submitted" as const,
-  },
-  {
-    id: "3",
-    title: "Essay: Romeo and Juliet",
-    subject: "English",
-    teacher: "Mrs. Smith",
-    dueDate: "2025-01-20",
-    status: "not_submitted" as const,
-  },
-  {
-    id: "4",
-    title: "World War II Timeline",
-    subject: "History",
-    teacher: "Mr. Brown",
-    dueDate: "2025-01-08",
-    status: "not_submitted" as const,
-  },
-  {
-    id: "5",
-    title: "Geometry Proofs",
-    subject: "Mathematics",
-    teacher: "Ms. Johnson",
-    dueDate: "2025-01-25",
-    status: "not_submitted" as const,
-  },
-  {
-    id: "6",
-    title: "Chemistry Lab Report",
-    subject: "Science",
-    teacher: "Dr. Wilson",
-    dueDate: "2025-01-18",
-    status: "submitted" as const,
-  },
-]
+// const sampleExams = [
+//   {
+//     id: "1",
+//     title: "Algebra Quiz - Chapter 5",
+//     subject: "Mathematics",
+//     teacher: "Ms. Johnson",
+//     dueDate: "2025-01-15",
+//     status: "not_submitted" as const,
+//   },
+//     {
+//     id: "6",
+//     title: "Chemistry Lab Report",
+//     subject: "Science",
+//     teacher: "Dr. Wilson",
+//     dueDate: "2025-01-18",
+//     status: "submitted" as const,
+//   },
+// ]
 
 export default function StudentDashboard() {
+  const sampleExams = []
   const [exams, setExams] = useState(sampleExams)
   const [filteredExams, setFilteredExams] = useState(sampleExams)
-  const studentName = "Alex Chen"
+  const {userLogged} = useAuthContext()
+  const studentName = userLogged.user.name + ' ' + userLogged.user.lastName
 
+  useEffect(() =>{
+    fetchExamns()
+  }, [userLogged?.user?._id])
+
+  async function fetchExamns() {
+    try {
+      const {data} = await axios.get(
+          `http://localhost:3000/api/submissions/getSubmissions/${userLogged.user._id}`
+        );
+        const exams = data.submissions.map((exam) =>{
+          return{
+            id: exam._id,
+            title: exam.title,
+            subject: exam.subject.name,
+            status: exam.status,
+            dueDate: exam.dueDate
+          }
+        })
+        console.log(exams);
+        
+        setExams(exams)
+        setFilteredExams(exams)
+        
+    } catch (err) {
+    console.error(err);
+  }
+}
   const handleSubjectFilter = (subject: string) => {
     if (subject === "all") {
       setFilteredExams(exams)
@@ -123,7 +122,7 @@ export default function StudentDashboard() {
         {/* Exams Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredExams.map((exam) => (
-            <ExamCard key={exam.id} exam={exam} />
+            <SubmissionExamCard key={exam.id} exam={exam} />
           ))}
         </div>
 

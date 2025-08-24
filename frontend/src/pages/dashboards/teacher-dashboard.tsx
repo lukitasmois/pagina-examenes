@@ -1,72 +1,83 @@
 "use client"
 
-import { useState } from "react"
-import { TeacherHeader } from "../components/teacher-header"
-import { SubjectSection } from "../components/subject-section"
-import { CreateExamModal } from "../components/create-exam-modal"
-import { DashboardFilters } from "../components/dashboard-filters"
+import { useEffect, useState } from "react"
+import { TeacherHeader } from "../../components/teacher-header"
+import { SubjectSection } from "../../components/subject-section"
+import { CreateExamModal } from "../../components/create-exam-modal"
+import { DashboardFilters } from "../../components/dashboard-filters"
 import { BarChart3, Users, FileText, Clock } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card"
+import { useAuthContext } from "@/src/components/context/AuthContext"
+import axios from "axios"
 
 // Sample data
-const sampleSubjects = [
-  {
-    id: "1",
-    name: "Advanced Mathematics",
-    code: "MATH-401",
-    exams: [
-      {
-        id: "1",
-        title: "Calculus Integration Quiz",
-        createdDate: "2025-01-05",
-        dueDate: "2025-01-15",
-        submissionsPending: 8,
-        submissionsCorrected: 12,
-        totalStudents: 25,
-      },
-      {
-        id: "2",
-        title: "Linear Algebra Test",
-        createdDate: "2025-01-10",
-        dueDate: "2025-01-20",
-        submissionsPending: 15,
-        submissionsCorrected: 0,
-        totalStudents: 25,
-      },
-    ],
-  },
-  {
-    id: "2",
-    name: "Physics Laboratory",
-    code: "PHYS-301",
-    exams: [
-      {
-        id: "3",
-        title: "Mechanics Lab Report",
-        createdDate: "2025-01-08",
-        dueDate: "2025-01-18",
-        submissionsPending: 5,
-        submissionsCorrected: 8,
-        totalStudents: 18,
-      },
-    ],
-  },
-  {
-    id: "3",
-    name: "Computer Science Fundamentals",
-    code: "CS-101",
-    exams: [],
-  },
-]
+// const sampleSubjects = [
+//   {
+//     id: "1",
+//     name: "Advanced Mathematics",
+//     code: "MATH-401",
+//     exams: [
+//       {
+//         id: "1",
+//         title: "Calculus Integration Quiz",
+//         createdDate: "2025-01-05",
+//         dueDate: "2025-01-15",
+//         submissionsPending: 8,
+//         submissionsCorrected: 12,
+//         totalStudents: 25,
+//       },
+//     ],
+//   },
+// ]
 
 export default function TeacherDashboard() {
+  const sampleSubjects = []
   const [subjects, setSubjects] = useState(sampleSubjects)
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [selectedSubject, setSelectedSubject] = useState<string>("")
   const [activeTab, setActiveTab] = useState("all")
   const [searchQuery, setSearchQuery] = useState("")
+  const {userLogged} = useAuthContext()
 
-  const teacherName = "Dr. Sarah Johnson"
+  useEffect(()=>{
+    fetchExams()
+  }, [userLogged?.user?._id])
+
+async function fetchExams() {
+  try {
+    // 1) Traer materias del profe
+    const { data } = await axios.get(
+      `http://localhost:3000/api/subjects/get-subjets/${userLogged.user._id}`
+    );
+    const subjects = data.subjects ?? [];
+    console.log(subjects);
+    
+
+    // 2) Traer consignas (assignments) de cada materia en paralelo
+    const subjectsWithExams = await Promise.all(
+      subjects.map(async (subject: any) => {
+        const { data: dataExams } = await axios.get(
+          `http://localhost:3000/api/assignments/getAssignments/${subject._id}`
+        );
+        return {
+          id: subject._id,
+          name: subject.name,
+          code: subject.code_subject,
+          exams: dataExams?.assignments ?? [],
+        };
+      })
+    );
+
+    // 3) Un solo setState
+    setSubjects(subjectsWithExams);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+
+
+  const teacherName = userLogged.user.name + ' ' + userLogged.user.lastName 
 
   // Calculate statistics
   const totalExams = subjects.reduce((acc, subject) => acc + subject.exams.length, 0)
