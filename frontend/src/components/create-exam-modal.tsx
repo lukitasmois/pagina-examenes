@@ -7,16 +7,19 @@ import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
 import { Textarea } from "../components/ui/textarea"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../components/ui/dialog"
+import { ToastContainer, toast } from 'react-toastify';
 
 interface CreateExamModalProps {
   isOpen: boolean
   onClose: () => void
   subjectName: string
   onCreateExam: (examData: any) => void
+  subjectId: string
 }
 
-export function CreateExamModal({ isOpen, onClose, subjectName, onCreateExam }: CreateExamModalProps) {
+export function CreateExamModal({ isOpen, onClose, subjectName, onCreateExam, subjectId }: CreateExamModalProps) {
   const [formData, setFormData] = useState({
+    subjectId: "",
     title: "",
     instructions: "",
     dueDate: "",
@@ -25,8 +28,22 @@ export function CreateExamModal({ isOpen, onClose, subjectName, onCreateExam }: 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+
+        if (!formData.title.trim()) {
+          toast.error("Por favor seleccione ingrese un titulo para el examen.");
+          return
+        }
+        
+        if (!formData.dueDate.trim()) {
+          toast.error("Por favor seleccione una fecha de entrega.");
+          return
+        }
+
+    formData.subjectId = subjectId
     onCreateExam(formData)
-    setFormData({ title: "", instructions: "", dueDate: "", file: null })
+    setFormData({subjectId: "",title: "", instructions: "", dueDate: "", file: null })
+    
+    toast.success('Examen creado.')
     onClose()
   }
 
@@ -55,7 +72,6 @@ export function CreateExamModal({ isOpen, onClose, subjectName, onCreateExam }: 
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               placeholder="e.g., Chapter 5 Quiz - Algebra"
-              required
               className="border-gray-200 focus:border-green-400 focus:ring-green-400"
             />
           </div>
@@ -87,13 +103,12 @@ export function CreateExamModal({ isOpen, onClose, subjectName, onCreateExam }: 
                 type="datetime-local"
                 value={formData.dueDate}
                 onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
-                required
                 className="pl-10 border-gray-200 focus:border-green-400 focus:ring-green-400"
               />
             </div>
           </div>
 
-          {/* File Upload */}
+          {/* File Upload
           <div className="space-y-2">
             <Label htmlFor="file" className="text-sm font-medium text-gray-700">
               Exam File (Optional)
@@ -122,7 +137,7 @@ export function CreateExamModal({ isOpen, onClose, subjectName, onCreateExam }: 
                 </div>
               )}
             </div>
-          </div>
+          </div> */}
 
           {/* Action Buttons */}
           <div className="flex justify-end space-x-3 pt-4">
