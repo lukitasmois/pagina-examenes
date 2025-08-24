@@ -21,7 +21,8 @@ const Submission = new Schema({
     grade: { type: Number},
     feedback: {type:String },
     note: {type: String },
-    files: [String]
+    files: [String],
+    dueDate: { type: Date }
 })
 
 Submission.index({ "student._id": 1, id_assignment: 1 });

@@ -2,7 +2,7 @@ const User = require('../models/user');
 const Subject = require('../models/subject');
 const Submission = require('../models/submission');
 
-const generateSubmission = async ({ id_subject, id_student, id_assignment }) => {
+const generateSubmission = async ({ id_subject, id_student, id_assignment, dueDate }) => {
   const student = await User.findById(id_student);
   if (!student || student.role !== 'STUDENT') {
     throw new Error('Estudiante inválido.');
@@ -27,7 +27,8 @@ const generateSubmission = async ({ id_subject, id_student, id_assignment }) => 
     subject,
     student,
     id_assignment,
-    file: null
+    file: null,
+    dueDate
   });
 
   return await newSubmission.save();

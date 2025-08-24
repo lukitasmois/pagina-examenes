@@ -57,7 +57,8 @@ const createAssignment = async (req, res) =>{
             const submission = await generateSubmission({
             id_subject,
             id_student,
-            id_assignment: newAssignment._id
+            id_assignment: newAssignment._id,
+            dueDate: newAssignment.dueDate
           });
           submissions.push(submission);
           } catch (error) {

@@ -43,15 +43,17 @@ export default function StudentDashboard() {
       const {data} = await axios.get(
           `http://localhost:3000/api/submissions/getSubmissions/${userLogged.user._id}`
         );
-
         const exams = data.submissions.map((exam) =>{
           return{
             id: exam._id,
-            title: exam.title + 'aaa',
+            title: exam.title,
             subject: exam.subject.name,
-            status: exam.status
+            status: exam.status,
+            dueDate: exam.dueDate
           }
         })
+        console.log(exams);
+        
         setExams(exams)
         setFilteredExams(exams)
         
