@@ -59,9 +59,8 @@ export default function CreateExamForm() {
         id_subject: formData.id_subject,
         dueDate: formData.dueDate,
         id_teacher: userLogged.user._id,
-        kind: 'assignment',
       }
-      const response = await axios.post('http://localhost:3000/api/exams/create', examAssigment)
+      const response = await axios.post('http://localhost:3000/api/assignments/create', examAssigment)
       
       toast.success('Examen creado.')
 
