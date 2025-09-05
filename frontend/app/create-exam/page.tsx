@@ -4,17 +4,17 @@ import type React from "react"
 
 import { useEffect, useState } from "react"
 import { Save, X } from "lucide-react"
-import { Button } from "../components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
-import { Input } from "../components/ui/input"
-import { Label } from "../components/ui/label"
-import { Textarea } from "../components/ui/textarea"
-import { CreateExamHeader } from "../components/create-exam-header"
-import { SubjectSelect } from "../components/subject-select"
-import { DateTimePicker } from "../components/date-time-picker"
+import { Button } from "@src/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@src/components/ui/card"
+import { Input } from "@src/components/ui/input"
+import { Label } from "@src/components/ui/label"
+import { Textarea } from "@src/components/ui/textarea"
+import { CreateExamHeader } from "@src/components/create-exam-header"
+import { SubjectSelect } from "@src/components/subject-select"
+import { DateTimePicker } from "@src/components/date-time-picker"
 import { ToastContainer, toast } from 'react-toastify';
 import axios from "axios"
-import { useAuthContext } from "../components/context/AuthContext"
+import { useAuthContext } from "@src/components/context/AuthContext"
 
 export default function CreateExamForm() {
   const {userLogged} = useAuthContext()

@@ -1,10 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { SubmissionHeader } from "../components/submission-header"
-import { SubmissionStats } from "../components/submission-stats"
-import { SubmissionFilters } from "../components/submission-filters"
-import { SubmissionTable } from "../components/submission-table"
+import { SubmissionHeader } from "@src/components/submission-header"
+import { SubmissionStats } from "@src/components/submission-stats"
+import { SubmissionFilters } from "@src/components/submission-filters"
+import { SubmissionTable } from "@src/components/submission-table"
 
 // Sample data
 const examData = {

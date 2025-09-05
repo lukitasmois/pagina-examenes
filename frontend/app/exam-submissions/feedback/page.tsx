@@ -1,16 +1,16 @@
 "use client"
-
+//feedback-form
 import { useState } from "react"
 import { Save, X } from "lucide-react"
-import { Button } from "../components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
-import { Textarea } from "../components/ui/textarea"
-import { Input } from "../components/ui/input"
-import { Label } from "../components/ui/label"
-import { FeedbackFormHeader } from "../components/feedback-form-header"
-import { SubmissionPreview } from "../components/submission-preview"
-import { FeedbackTags } from "../components/feedback-tags"
-import { SubmissionViewerModal } from "../components/submission-viewer-modal"
+import { Button } from "@src/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@src/components/ui/card"
+import { Textarea } from "@src/components/ui/textarea"
+import { Input } from "@src/components/ui/input"
+import { Label } from "@src/components/ui/label"
+import { FeedbackFormHeader } from "@src/components/feedback-form-header"
+import { SubmissionPreview } from "@src/components/submission-preview"
+import { FeedbackTags } from "@src/components/feedback-tags"
+import { SubmissionViewerModal } from "@src/components/submission-viewer-modal"
 
 // Sample data
 const feedbackData = {

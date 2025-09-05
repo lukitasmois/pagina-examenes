@@ -1,13 +1,13 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { TeacherHeader } from "../../components/teacher-header"
-import { SubjectSection } from "../../components/subject-section"
-import { CreateExamModal } from "../../components/create-exam-modal"
-import { DashboardFilters } from "../../components/dashboard-filters"
+import { TeacherHeader } from "@src/components/teacher-header"
+import { SubjectSection } from "@src/components/subject-section"
+import { CreateExamModal } from "@src/components/create-exam-modal"
+import { DashboardFilters } from "@src/components/dashboard-filters"
 import { BarChart3, Users, FileText, Clock } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card"
-import { useAuthContext } from "@/src/components/context/AuthContext"
+import { Card, CardContent, CardHeader, CardTitle } from "@src/components/ui/card"
+import { useAuthContext } from "@src/components/context/AuthContext"
 import axios from "axios"
 
 // Sample data

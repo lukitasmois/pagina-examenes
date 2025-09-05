@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { SubmissionDetailHeader } from "../components/submission-detail-header"
-import { ImageViewer } from "../components/image-viewer"
-import { FeedbackPanel } from "../components/feedback-panel"
+import { SubmissionDetailHeader } from "@src/components/submission-detail-header"
+import { ImageViewer } from "@src/components/image-viewer"
+import { FeedbackPanel } from "@src/components/feedback-panel"
 
 // Sample data
 const submissionData = {
