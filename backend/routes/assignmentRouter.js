@@ -3,11 +3,14 @@ const router = express.Router()
 
 const {
     createAssignment,
-    getAssignmentsBySubject
+    getAssignmentsBySubject,
+    getAssignmentById
 } = require('../controllers/assignmentController')
 
 router.post('/create', createAssignment)
 
 router.get('/getAssignments/:id_subject', getAssignmentsBySubject)
+
+router.get('/getAssignmentById/:id', getAssignmentById)
 
 module.exports = router

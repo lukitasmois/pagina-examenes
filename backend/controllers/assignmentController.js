@@ -101,8 +101,30 @@ const getAssignmentsBySubject = async (req, res) =>{
 
 }
 
+const getAssignmentById = async (req, res) =>{
+  try {
+    const {id} = req.params
+
+    const assignment = await Assignment.findById(id);
+
+    if(!assignment){
+      return res.status(400).send({succes: false, message: 'No se enontro ningun examen.'})
+    }
+
+    return res.status(200).send({succes: true, assignment: assignment})
+
+  } catch (error) {
+    console.error('Error getAssignmentsBySubject:', error.message);
+    return res.status(500).send({
+      success: false,
+      message: 'Error al obtener el examen.'
+    });
+  }
+}
+
 module.exports = {
     createAssignment,
-    getAssignmentsBySubject
+    getAssignmentsBySubject,
+    getAssignmentById
 }
     
