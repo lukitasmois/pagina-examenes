@@ -5,7 +5,7 @@ const {
     createSubmission,
     getSubmissions,
     getSubmissionsByAssignment
-} = require('../controllers/submissionController')
+} = require('../controllers/submissionsController')
 
 router.post('/create', createSubmission)
 

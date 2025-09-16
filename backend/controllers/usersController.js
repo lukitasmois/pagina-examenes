@@ -21,6 +21,27 @@ const register = async (req, res) =>{
     }
 }
 
+const registerSeed = async (req) =>{
+        const {dni, name, lastName, email, password, role} = req.body
+    try {
+        const newUser = new User({
+        dni, 
+        name, 
+        lastName, 
+        email,
+        username: email,
+        password,
+        role
+    })
+
+    const user = await User.register(newUser, password)
+    console.log({succes: true, newUser: newUser})
+    } catch (error) {
+        console.log(error.message);
+        console.log({succes: false, message: "Error al intentar registrar el usuario"})
+    }
+}
+
 const login = (req, res) => {
     res.json({
         logged: true,
@@ -41,4 +62,4 @@ const userLogged = async (req,res) =>{
         res.json({message: "No hay usuario logueado", logged: false})
     }
 }
-module.exports = {register, login, userLogged}
+module.exports = {register, login, userLogged, registerSeed}

@@ -5,7 +5,7 @@ const {
     createAssignment,
     getAssignmentsBySubject,
     getAssignmentById
-} = require('../controllers/assignmentController')
+} = require('../controllers/assignmentsController')
 
 router.post('/create', createAssignment)
 

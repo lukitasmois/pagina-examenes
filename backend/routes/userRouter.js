@@ -6,7 +6,7 @@ const {
     register,
     login,
     userLogged
-} = require('../controllers/user')
+} = require('../controllers/usersController')
 
 router.post('/register', register)
 

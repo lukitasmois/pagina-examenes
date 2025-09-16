@@ -7,6 +7,8 @@ const app = express();
 const port = 3000;
 const User = require("./models/user.js")
 const cors = require('cors')
+const {seedUsers} = require('./seeders/users.js')
+const {seedSubjects} = require('./seeders/subjects.js')
 
 app.use(express.json())
 app.use(cors({
@@ -15,6 +17,10 @@ app.use(cors({
 }))
 
 crearAdmin();
+
+//seeders
+seedUsers()
+seedSubjects()
 
 app.listen(port, () => {
   console.log(`Servidor iniciado en el puerto ${port}`);
@@ -58,6 +64,7 @@ app.use('/api/exams/', examsRouter)
 app.use('/api/subjects/', subjectsRouter)
 app.use('/api/assignments/', assignmentRouter)
 app.use('/api/submissions/', submissionRouter)
+
 
 
 //crear admin
