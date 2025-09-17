@@ -19,8 +19,8 @@ app.use(cors({
 crearAdmin();
 
 //seeders
-seedUsers()
 seedSubjects()
+seedUsers()
 
 app.listen(port, () => {
   console.log(`Servidor iniciado en el puerto ${port}`);

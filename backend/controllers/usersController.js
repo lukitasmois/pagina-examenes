@@ -22,7 +22,7 @@ const register = async (req, res) =>{
 }
 
 const registerSeed = async (req) =>{
-        const {dni, name, lastName, email, password, role} = req.body
+        const {dni, name, lastName, email, password, role, subjects} = req.body
     try {
         const newUser = new User({
         dni, 
@@ -31,7 +31,8 @@ const registerSeed = async (req) =>{
         email,
         username: email,
         password,
-        role
+        role,
+        subjects
     })
 
     const user = await User.register(newUser, password)

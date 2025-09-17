@@ -25,7 +25,7 @@ const getSubjets = async (req,res) =>{
         const subjects = user.subjects
         
         const subjectsFind = await Promise.all(subjects.map((subject)=>{
-            return Subject.findById(subject)
+            return Subject.findOne({code_subject: subject})
         }))  
 
         res.status(200).send({succes: true, subjects: subjectsFind})
