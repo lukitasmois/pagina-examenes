@@ -52,7 +52,7 @@ async function fetchExams() {
       `http://localhost:3000/api/subjects/get-subjets/${userLogged.user._id}`
     );
     const subjects = data.subjects ?? [];
-    console.log(subjects);
+    console.log('subjects',subjects);
     
 
     // 2) Traer consignas (assignments) de cada materia en paralelo
@@ -95,6 +95,8 @@ async function fetchExams() {
   const handleCreateExam = (subjectId: string) => {
     setSelectedSubject(subjectId)
     setIsCreateModalOpen(true)
+
+
   }
 
   const handleViewSubmissions = (assignmentId: string) => {
@@ -102,9 +104,23 @@ async function fetchExams() {
     router.push(`/exam-submissions?assignmentId=${assignmentId}`)
   }
 
-  const handleExamCreated = (examData: any) => {
-    console.log("New exam created:", examData)
-    // Add exam to the selected subject
+  const handleExamCreated = async (examData: any) => {
+    try {
+      const examAssigment = {
+        title: examData.title,
+        id_subject: examData.subjectId,
+        dueDate: examData.dueDate,
+        id_teacher: userLogged.user._id,
+      }
+      console.log('envio', examAssigment);
+      
+      const response = await axios.post('http://localhost:3000/api/assignments/create', examAssigment)
+      console.log("New exam created:", response.data)
+      
+    } catch (error) {
+      console.log(error);
+      //toast.error("Error al crear un examen, intentelo nuevamente.");
+    }
   }
 
   const selectedSubjectData = subjects.find((s) => s.id === selectedSubject)
@@ -187,6 +203,7 @@ async function fetchExams() {
           onClose={() => setIsCreateModalOpen(false)}
           subjectName={selectedSubjectData?.name || ""}
           onCreateExam={handleExamCreated}
+          subjectId={selectedSubjectData?.id || ""}
         />
       </main>
     </div>
