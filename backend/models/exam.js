@@ -22,7 +22,7 @@ const Exam = new Schema({
     totalStudents: {type: Number, default: 0},
 
 
-    submmitedAt: {type: Date},
+    submmittedAt: {type: Date},
     feedback: {type:String },
     grade: {type: Number },
     note: {type: String },

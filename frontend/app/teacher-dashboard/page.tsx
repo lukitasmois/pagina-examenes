@@ -1,14 +1,15 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { TeacherHeader } from "../../components/teacher-header"
-import { SubjectSection } from "../../components/subject-section"
-import { CreateExamModal } from "../../components/create-exam-modal"
-import { DashboardFilters } from "../../components/dashboard-filters"
+import { TeacherHeader } from "@src/components/teacher-header"
+import { SubjectSection } from "@src/components/subject-section"
+import { CreateExamModal } from "@src/components/create-exam-modal"
+import { DashboardFilters } from "@src/components/dashboard-filters"
 import { BarChart3, Users, FileText, Clock } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card"
-import { useAuthContext } from "@/src/components/context/AuthContext"
+import { Card, CardContent, CardHeader, CardTitle } from "@src/components/ui/card"
+import { useAuthContext } from "@src/components/context/AuthContext"
 import axios from "axios"
+import { useRouter } from "next/navigation"
 
 // Sample data
 // const sampleSubjects = [
@@ -38,6 +39,7 @@ export default function TeacherDashboard() {
   const [activeTab, setActiveTab] = useState("all")
   const [searchQuery, setSearchQuery] = useState("")
   const {userLogged} = useAuthContext()
+  const router = useRouter();
 
   useEffect(()=>{
     fetchExams()
@@ -97,9 +99,9 @@ async function fetchExams() {
 
   }
 
-  const handleViewSubmissions = (examId: string) => {
-    console.log("View submissions for exam:", examId)
-    // Navigate to submissions view
+  const handleViewSubmissions = (assignmentId: string) => {
+    console.log("View submissions for exam:", assignmentId)
+    router.push(`/exam-submissions?assignmentId=${assignmentId}`)
   }
 
   const handleExamCreated = async (examData: any) => {

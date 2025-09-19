@@ -2,14 +2,14 @@
 
 import { useState } from "react"
 import { Send, MessageSquare } from "lucide-react"
-import { Button } from "../components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
-import { Textarea } from "../components/ui/textarea"
-import { Label } from "../components/ui/label"
-import { UploadHeader } from "../components/upload-header"
-import { FileUploadArea } from "../components/file-upload-area"
-import { FilePreview } from "../components/file-preview"
-import { SuccessModal } from "../components/success-modal"
+import { Button } from "@src/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@src/components/ui/card"
+import { Textarea } from "@src/components/ui/textarea"
+import { Label } from "@src/components/ui/label"
+import { UploadHeader } from "@src/components/upload-header"
+import { FileUploadArea } from "@src/components/file-upload-area"
+import { FilePreview } from "@src/components/file-preview"
+import { SuccessModal } from "@src/components/success-modal"
 
 // Sample data
 const uploadData = {

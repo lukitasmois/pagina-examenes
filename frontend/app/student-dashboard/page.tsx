@@ -1,11 +1,11 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { DashboardHeader } from "../../components/dashboard-header"
-import { SubmissionExamCard } from "@/src/components/submission-exam-card"
-import { ExamFilters } from "../../components/exam-filters"
+import { DashboardHeader } from "@src/components/dashboard-header"
+import { SubmissionExamCard } from "@src/components/submission-exam-card"
+import { ExamFilters } from "@src/components/exam-filters"
 import { FileText } from "lucide-react"
-import { useAuthContext } from "@/src/components/context/AuthContext"
+import { useAuthContext } from "@src/components/context/AuthContext"
 import axios from "axios"
 
 // Sample data

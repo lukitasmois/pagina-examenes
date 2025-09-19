@@ -1,10 +1,9 @@
 "use client"
 
-import LoginScreen from "@/src/pages/login/login-screen"
-import {  useAuthContext } from "@/src/components/context/AuthContext"
-import CreateExamForm from "@/src/pages/create-exam-form"
-import StudentDashboard from "@/src/pages/dashboards/student-dashboard"
-import TeacherDashboard from "@/src/pages/dashboards/teacher-dashboard"
+import {  useAuthContext } from "@src/components/context/AuthContext"
+import StudentDashboard from "./student-dashboard/page";
+import TeacherDashboard from "./teacher-dashboard/page";
+import LoginScreen from "./login/page";
 
 export default function Page() {
   const {userLogged, loading} = useAuthContext()
@@ -23,7 +22,7 @@ export default function Page() {
           <TeacherDashboard></TeacherDashboard>
         )
       ) : (
-        <LoginScreen />
+        <LoginScreen/>
       )}
     </div>
   )

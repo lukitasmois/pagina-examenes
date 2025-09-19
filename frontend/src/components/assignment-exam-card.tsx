@@ -5,7 +5,7 @@ import { Badge } from "../components/ui/badge"
 
 interface ExamCardProps {
   exam: {
-    id: string
+    _id: string
     title: string
     createdDate: string
     dueDate: string
@@ -66,7 +66,7 @@ export function AssignmentExamCard({ exam, onViewSubmissions }: ExamCardProps) {
         </div>
 
         <Button
-          onClick={() => onViewSubmissions(exam.id)}
+          onClick={() => onViewSubmissions(exam._id)}
           className="w-full bg-blue-600 hover:bg-blue-700 text-white"
         >
           <Eye className="w-4 h-4 mr-2" />

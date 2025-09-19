@@ -1,10 +1,10 @@
 "use client"
-
+//feedback-view
 import { useState } from "react"
-import { FeedbackHeader } from "../components/feedback-header"
-import { SubmissionViewer } from "../components/submission-viewer"
-import { TeacherFeedback } from "../components/teacher-feedback"
-import { DiscussionThread } from "../components/discussion-thread"
+import { FeedbackHeader } from "@src/components/feedback-header"
+import { SubmissionViewer } from "@src/components/submission-viewer"
+import { TeacherFeedback } from "@src/components/teacher-feedback"
+import { DiscussionThread } from "@src/components/discussion-thread"
 
 // Sample data
 const feedbackData = {
