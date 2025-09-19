@@ -24,7 +24,7 @@ interface Submission {
     avatar?: string
   }
   submittedAt: string | null
-  status: "not_submitted" | "submitted" | "corrected"
+  status: "no_entregado" | "submitted" | "corrected"
   imageUrl?: string
   feedback?: string
   grade?: string
@@ -52,14 +52,14 @@ export function SubmissionTable({ submissions, onStatusChange }: SubmissionTable
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "corrected":
+      case "corregido":
         return (
           <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">
             <CheckCircle className="w-3 h-3 mr-1" />
             Corrected
           </Badge>
         )
-      case "submitted":
+      case "entregado":
         return (
           <Badge variant="outline" className="bg-yellow-100 text-yellow-800 border-yellow-200">
             <Clock className="w-3 h-3 mr-1" />
@@ -116,7 +116,7 @@ export function SubmissionTable({ submissions, onStatusChange }: SubmissionTable
                       variant="outline"
                       size="sm"
                       onClick={() => handleViewSubmission(submission)}
-                      disabled={submission.status === "not_submitted"}
+                      disabled={submission.status === "no_entregado"}
                     >
                       <Eye className="h-4 w-4 mr-1" />
                       View
@@ -125,7 +125,7 @@ export function SubmissionTable({ submissions, onStatusChange }: SubmissionTable
                       variant="outline"
                       size="sm"
                       onClick={() => handleAddFeedback(submission)}
-                      disabled={submission.status === "not_submitted"}
+                      disabled={submission.status === "no_entregado"}
                       className={
                         submission.status === "corrected"
                           ? "bg-green-50 text-green-600 border-green-200 hover:bg-green-100"

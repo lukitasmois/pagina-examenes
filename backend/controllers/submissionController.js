@@ -1,5 +1,6 @@
 const Submission = require('../models/submission')
 const User = require('../models/user')
+const Assignment = require('../models/assignment')
 const { generateSubmission } = require('../helpers/submissions')
 
 const createSubmission = async (req, res) => {
@@ -50,7 +51,37 @@ const getSubmissions = async (req, res) =>{
 
 }
 
+const getSubmissionsByAssignment = async (req, res) => {
+  try {
+    const {id_assignment} = req.params;    
+
+    const assignment = await Assignment.findById(id_assignment)
+    
+    if(!assignment){
+      res.status(400).send({succes:false, message:'No se encontro el espacio de entrega para las entregas.'})
+    }
+
+    const submissios = await Submission.find({
+      id_assignment: id_assignment
+    }).sort({ dueDate: 1});
+
+    return res.status(200).send({
+      succes: true,
+      count: submissios.length,
+      submissios: submissios
+    })
+
+  } catch (error) {
+    console.error('Error getSubmissionsByAssignment:', error.message);
+    return res.status(500).send({
+      success: false,
+      message: 'Error al obtener las entregas.'
+    });
+  }
+}
+
 module.exports ={
     createSubmission,
-    getSubmissions
+    getSubmissions,
+    getSubmissionsByAssignment
 }

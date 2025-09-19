@@ -9,7 +9,7 @@ interface SubjectSectionProps {
     name: string
     code: string
     exams: Array<{
-      id: string
+      _id: string
       title: string
       createdDate: string
       dueDate: string
@@ -50,7 +50,7 @@ export function SubjectSection({ subject, onCreateExam, onViewSubmissions }: Sub
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {subject.exams.map((exam) => (
               <AssignmentExamCard
-                key={exam.id}
+                key={exam._id}
                 exam={exam}
                 onViewSubmissions={onViewSubmissions}
               />

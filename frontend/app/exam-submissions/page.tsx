@@ -5,7 +5,10 @@ import { SubmissionHeader } from "@src/components/submission-header"
 import { SubmissionStats } from "@src/components/submission-stats"
 import { SubmissionFilters } from "@src/components/submission-filters"
 import { SubmissionTable } from "@src/components/submission-table"
-
+import { useEffect } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
+import { title } from "process"
+import axios from "axios"
 // Sample data
 const examData = {
   id: "1",
@@ -28,7 +31,8 @@ const submissionsData = [
     feedback: "Good work on the integration problems. Your step-by-step approach is clear and methodical. Pay attention to the substitution method in problem 3.",
     grade: "A-",
   },
-  {
+  //#region Funciones viejas
+  /*{
     id: "2",
     student: {
       id: "s2",
@@ -93,14 +97,29 @@ const submissionsData = [
     },
     submittedAt: null,
     status: "not_submitted" as const,
-  },
+  },*/
+  //#endregion
 ]
 
 export default function ExamSubmissions() {
   const [submissions, setSubmissions] = useState(submissionsData)
   const [activeTab, setActiveTab] = useState("all")
   const [searchQuery, setSearchQuery] = useState("")
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const assignmentId = searchParams.get('assignmentId')
+  const [examData, setExamData] = useState({
+    id: '',
+    title: '---',
+    subject: '---',
+    dueDate: ''
+  })
 
+  useEffect(()=>{
+    console.log(assignmentId);
+    getAssignment()
+    getSubmissions()
+  }, [])
   // Calculate statistics
   const stats = {
     totalStudents: submissions.length,
@@ -123,6 +142,23 @@ export default function ExamSubmissions() {
     
     return true
   })
+
+  async function getAssignment() {
+    const {data} = await axios.get(`http://localhost:3000/api/assignments/getAssignmentById/${assignmentId}`)
+    setExamData({
+      id: data.assignment._id,
+      title: data.assignment.title,
+      dueDate: data.assignment.dueDate,
+      subject: 'a'
+    })
+    
+  }
+
+  async function getSubmissions() {
+    const {data} = await axios.get(`http://localhost:3000/api/submissions/getSubmissionsByAssignment/${assignmentId}`)
+    console.log('submissions', data.submissios);
+    setSubmissions(data.submissios)
+  }
 
   const handleStatusChange = (submissionId: string, newStatus: string) => {
     setSubmissions(submissions.map(submission => 

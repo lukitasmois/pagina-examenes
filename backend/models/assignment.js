@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const VALID_STATUS = ['Cargado', 'Vencido']
+const VALID_STATUS = ['cargado', 'vencido']
 
 const Assignment = new Schema({
     title: {type: String, required: true},
     id_subject: {type: String, required: true},
     dueDate: {type: String, required: true},
-    status: {type: String, enum: VALID_STATUS, default: 'Cargado'},
+    status: {type: String, enum: VALID_STATUS, default: 'cargado'},
     teacher: {
         _id: { type: String},
         name: { type: String},
