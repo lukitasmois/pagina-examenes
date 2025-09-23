@@ -30,7 +30,7 @@ const createAssignment = async (req, res) =>{
         }
 
         const listUsers = await User.find({
-          subjects: id_subject,
+          subjects: subject.code_subject,
         })
         
 

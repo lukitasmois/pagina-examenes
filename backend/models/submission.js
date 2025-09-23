@@ -8,7 +8,7 @@ const Submission = new Schema({
     subject: {
         _id: { type: String},
         name: {type: String, required: true},
-        code_subject: {type: String, required: true, unique: true}
+        code_subject: {type: String, required: true}
     },
     status: {type: String, enum: VALID_STATUS, default: 'no_entregado'},
     student:{
@@ -23,7 +23,7 @@ const Submission = new Schema({
     note: {type: String },
     files: [String],
     dueDate: { type: Date },
-    id_exam: {type: String, required: true}
+    //id_exam: {type: String, required: true}
 })
 
 Submission.index({ "student._id": 1, id_assignment: 1 });
