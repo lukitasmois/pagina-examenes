@@ -5,7 +5,7 @@ const VALID_STATUS = ['cargado', 'vencido']
 
 const Assignment = new Schema({
     title: {type: String, required: true},
-    id_subject: {type: String, required: true},
+    code_subject: {type: String, required: true},
     dueDate: {type: String, required: true},
     status: {type: String, enum: VALID_STATUS, default: 'cargado'},
     teacher: {

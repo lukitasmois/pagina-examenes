@@ -2,13 +2,13 @@ const User = require('../models/user');
 const Subject = require('../models/subject');
 const Submission = require('../models/submission');
 
-const generateSubmission = async ({ id_subject, id_student, id_assignment, dueDate }) => {
+const generateSubmission = async ({ code_subject, id_student, id_assignment, dueDate }) => {
   const student = await User.findById(id_student);
   if (!student || student.role !== 'STUDENT') {
     throw new Error('Estudiante inválido.');
   }
 
-  const subject = await Subject.findById(id_subject);
+  const subject = await Subject.find({code_subject: code_subject});
   if (!subject) {
     throw new Error('Materia inválida.');
   }
