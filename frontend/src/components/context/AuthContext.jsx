@@ -16,11 +16,11 @@ const AuthProvider = ({ children }) => {
   })
 
   const [loading, setLoading] = useState(true) // <- nuevo estado
-
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
   async function fetchUserLogged() {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/users/user-logged",
+        `${API_URL}/api/users/user-logged`,
         userLogged,
         { withCredentials: true }
       )

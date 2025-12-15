@@ -46,10 +46,11 @@ export default function TeacherDashboard() {
   }, [userLogged?.user?._id])
 
 async function fetchExams() {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
   try {
     // 1) Traer materias del profe
     const { data } = await axios.get(
-      `http://localhost:3000/api/subjects/get-subjets/${userLogged.user._id}`
+      `${API_URL}/api/subjects/get-subjets/${userLogged.user._id}`
     );
     const subjects = data.subjects ?? [];
     console.log('subjects',subjects);
@@ -59,7 +60,7 @@ async function fetchExams() {
     const subjectsWithExams = await Promise.all(
       subjects.map(async (subject: any) => {
         const { data: dataExams } = await axios.get(
-          `http://localhost:3000/api/assignments/getAssignments/${subject._id}`
+          `${API_URL}/api/assignments/getAssignments/${subject._id}`
         );
         return {
           id: subject._id,
@@ -105,6 +106,7 @@ async function fetchExams() {
   }
 
   const handleExamCreated = async (examData: any) => {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
     try {
       const examAssigment = {
         title: examData.title,
@@ -114,7 +116,7 @@ async function fetchExams() {
       }
       console.log('envio', examAssigment);
       
-      const response = await axios.post('http://localhost:3000/api/assignments/create', examAssigment)
+      const response = await axios.post(`${API_URL}/api/assignments/create`, examAssigment)
       console.log("New exam created:", response.data)
       
     } catch (error) {

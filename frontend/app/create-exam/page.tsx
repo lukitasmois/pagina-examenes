@@ -17,6 +17,8 @@ import axios from "axios"
 import { useAuthContext } from "@src/components/context/AuthContext"
 
 export default function CreateExamForm() {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
   const {userLogged} = useAuthContext()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
@@ -60,7 +62,7 @@ export default function CreateExamForm() {
         dueDate: formData.dueDate,
         id_teacher: userLogged.user._id,
       }
-      const response = await axios.post('http://localhost:3000/api/assignments/create', examAssigment)
+      const response = await axios.post(`${API_URL}/api/assignments/create`, examAssigment)
       
       toast.success('Examen creado.')
 

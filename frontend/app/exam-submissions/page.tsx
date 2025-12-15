@@ -144,7 +144,8 @@ export default function ExamSubmissions() {
   })
 
   async function getAssignment() {
-    const {data} = await axios.get(`http://localhost:3000/api/assignments/getAssignmentById/${assignmentId}`)
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    const {data} = await axios.get(`${API_URL}/api/assignments/getAssignmentById/${assignmentId}`)
     setExamData({
       id: data.assignment._id,
       title: data.assignment.title,
@@ -155,7 +156,8 @@ export default function ExamSubmissions() {
   }
 
   async function getSubmissions() {
-    const {data} = await axios.get(`http://localhost:3000/api/submissions/getSubmissionsByAssignment/${assignmentId}`)
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    const {data} = await axios.get(`${API_URL}/api/submissions/getSubmissionsByAssignment/${assignmentId}`)
     console.log('submissions', data.submissios);
     setSubmissions(data.submissios)
   }

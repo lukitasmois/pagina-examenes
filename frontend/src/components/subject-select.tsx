@@ -25,11 +25,12 @@ export function SubjectSelect({ value, onChange }: SubjectSelectProps) {
 
   // Sample subjects - in a real app, these would come from an API
   const [subjects, setSubjects] = useState([])
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() =>{
     const id = userLogged.user._id;
     axios
-      .get(`http://localhost:3000/api/subjects/get-subjets/${id}`)
+      .get(`${API_URL}/api/subjects/get-subjets/${id}`)
       .then((res) => {
         
         const subjects = res.data.subjects;

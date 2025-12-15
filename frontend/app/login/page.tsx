@@ -10,7 +10,7 @@ import axios from 'axios'
 import { json } from "stream/consumers"
 
 export default function LoginScreen() {
-  
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   
@@ -21,8 +21,8 @@ export default function LoginScreen() {
         password: password
       }
            
-      try {
-        const request = await axios.post('http://localhost:3000/api/users/login', user, {
+      try {        
+        const request = await axios.post(`${API_URL}/api/users/login`, user, {
           withCredentials: true
         })
 

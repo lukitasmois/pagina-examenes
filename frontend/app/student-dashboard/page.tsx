@@ -40,9 +40,10 @@ export default function StudentDashboard() {
   }, [userLogged?.user?._id])
 
   async function fetchExamns() {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
     try {
       const {data} = await axios.get(
-          `http://localhost:3000/api/submissions/getSubmissions/${userLogged.user._id}`
+          `${API_URL}/api/submissions/getSubmissions/${userLogged.user._id}`
         );
         const exams = data.submissions.map((exam) =>{
           return{
