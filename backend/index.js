@@ -10,7 +10,7 @@ const cors = require('cors')
 
 app.use(express.json())
 app.use(cors({
-  origin: 'http://163.176.152.160:3000',
+  origin: '127.0.0.1:3000',
   credentials: true
 }))
 
@@ -18,7 +18,7 @@ crearAdmin();
 
 app.listen(port, () => {
   console.log(`Servidor iniciado en el puerto ${port}`);
-  console.log(`http://localhost:${port}`);
+  console.log(`127.0.0.1:${port}`);
 });
 
 app.get('/',(req, res) =>{
