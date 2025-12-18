@@ -9,6 +9,7 @@ import { useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { title } from "process"
 import axios from "axios"
+import { Suspense } from "react"
 // Sample data
 const examData = {
   id: "1",
@@ -101,7 +102,7 @@ const submissionsData = [
   //#endregion
 ]
 
-export default function ExamSubmissions() {
+function ExamSubmissions() {
   const [submissions, setSubmissions] = useState(submissionsData)
   const [activeTab, setActiveTab] = useState("all")
   const [searchQuery, setSearchQuery] = useState("")
@@ -198,5 +199,14 @@ export default function ExamSubmissions() {
         />
       </div>
     </div>
+  )
+}
+
+export default function Page() {
+  return (
+    // Puedes poner un spinner o texto en fallback
+    <Suspense fallback={<div>Cargando envío...</div>}>
+      <ExamSubmissions/>
+    </Suspense>
   )
 }
