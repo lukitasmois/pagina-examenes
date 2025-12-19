@@ -48,9 +48,16 @@ mongoose.connect(process.env.MONGO_URL_CONNECTION)
 
 // Passport
 app.use(session({
+  proxy: true,
   secret: process.env.CLAVE_SECRETA,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {
+    secure: true,      // Obligatorio para HTTPS (que ya tienes)
+    sameSite: 'none',  // Obligatorio para cross-domain (Vercel -> Oracle)
+    httpOnly: true,    // Recomendado por seguridad
+    maxAge: 24 * 60 * 60 * 1000 // 24 horas
+  }
 }))
 
 app.use(passport.initialize())
