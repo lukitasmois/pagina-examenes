@@ -8,11 +8,26 @@ const port = 3000;
 const User = require("./models/user.js")
 const cors = require('cors')
 
+const allowedOrigins = [
+  'https://pagina-examenes-vercel2.vercel.app',
+  'https://pagina-examenes-vercel2-hw1oh4zmq-lukitasmois-projects.vercel.app' // La URL que te dio el error
+];
+
 app.use(express.json())
 app.use(cors({
-  origin: '127.0.0.1:3000',
-  credentials: true
-}))
+  origin: function (origin, callback) {
+    // permitir peticiones sin origen como postman
+    // o si el origen esta en la lista
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  },
+  credentials: true, // necesario para enviar cookies o sesiones
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 crearAdmin();
 
