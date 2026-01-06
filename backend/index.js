@@ -8,9 +8,15 @@ const port = 3000;
 const User = require("./models/user.js")
 const cors = require('cors')
 
+const allowedOrigins = [
+  'https://pagina-examenes-vercel2.vercel.app',
+  'https://pagina-examenes-vercel2-hw1oh4zmq-lukitasmois-projects.vercel.app', // La URL que te dio el error
+  'http://localhost:3001'
+];
+
 app.use(express.json())
 app.use(cors({
-  origin: '127.0.0.1:3000',
+  origin: allowedOrigins,
   credentials: true
 }))
 
